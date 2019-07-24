@@ -15,4 +15,4 @@ clean:
 	rm -rf bin vendor
 
 test: vendor
-	go test -v -cover ./...
+	go test -v ./multitenant
