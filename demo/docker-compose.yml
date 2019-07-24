@@ -1,0 +1,16 @@
+version: "3"
+
+services:
+    alertmanager:
+        image: prom/alertmanager
+        ports:
+            - "9093:9093"
+        volumes:
+            - ./alertmanager/:/etc/alertmanager/
+        restart: always
+
+    mailhog:
+        image: mailhog/mailhog
+        ports:
+            - "1025:1025"
+            - "8025:8025"

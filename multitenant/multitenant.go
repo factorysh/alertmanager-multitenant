@@ -2,6 +2,7 @@ package multitenant
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 
 	jwt "github.com/dgrijalva/jwt-go"
@@ -37,27 +38,31 @@ func (m *Multitenant) Multitenant(next http.Handler) http.Handler {
 		// No jwt in header
 		jwtStr := r.Header.Get("JWT")
 		if jwtStr == "" {
-			w.WriteHeader(http.StatusUnauthorized)
+			w.WriteHeader(http.StatusForbidden)
+			return
+		}
+		// Good path
+		if r.URL.Path != "/api/v2/alerts" || r.URL.RawQuery != "" {
+			w.WriteHeader(http.StatusForbidden)
 			return
 		}
 		claims := &Claims{}
 		// Parse the JWT string and store the result in `claims`.
 		token, err := jwt.ParseWithClaims(jwtStr, claims, func(token *jwt.Token) (interface{}, error) {
+			_, ok := token.Method.(*jwt.SigningMethodHMAC)
+			if !ok {
+				return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
+			}
 			return m.JwtSecret, nil
 		})
 		if err != nil {
-			// Invalid signature
-			if err == jwt.ErrSignatureInvalid {
-				w.WriteHeader(http.StatusUnauthorized)
-				return
-			}
 			// Bad JWT
-			w.WriteHeader(http.StatusUnauthorized)
+			w.WriteHeader(http.StatusForbidden)
 			return
 		}
 		// Invalid JWT
 		if !token.Valid {
-			w.WriteHeader(http.StatusUnauthorized)
+			w.WriteHeader(http.StatusForbidden)
 			return
 		}
 		next.ServeHTTP(w, r)
