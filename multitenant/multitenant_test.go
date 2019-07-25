@@ -38,7 +38,7 @@ func TestMiddleware(t *testing.T) {
 	// assert.NoError(t, err)
 	// POST request without project label
 	res, err := http.Post(ts.URL, "application/json", bytes.NewBuffer([]byte(`[{"labels": {"blabla": "test"}}]`)))
-	assert.Equal(t, http.StatusBadRequest, res.StatusCode, "the status code should be StatusBadRequest")
+	assert.Equal(t, http.StatusForbidden, res.StatusCode, "the status code should be StatusForbidden")
 	assert.NoError(t, err)
 	// POST request with project label but without JWT header
 	res, err = http.Post(ts.URL, "application/json", bytes.NewBuffer([]byte(`[{"labels": {"project": "test"}}]`)))

@@ -1,8 +1,10 @@
 package multitenant
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 
 	jwt "github.com/dgrijalva/jwt-go"
@@ -24,8 +26,16 @@ type Claims struct {
 func (m *Multitenant) Multitenant(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		var datas []*Data
-
-		err := json.NewDecoder(r.Body).Decode(&datas)
+		// Read the Body for clonning it
+		body, err := ioutil.ReadAll(r.Body)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+		// Reset the Body as Before
+		r.Body = ioutil.NopCloser(bytes.NewReader(body))
+		// Unmarshal
+		err = json.NewDecoder((bytes.NewReader(body))).Decode(&datas)
 		if err != nil {
 			w.WriteHeader(http.StatusBadRequest)
 			return
@@ -33,7 +43,7 @@ func (m *Multitenant) Multitenant(next http.Handler) http.Handler {
 		project := datas[0].Labels["project"]
 		// No project label
 		if project == "" {
-			w.WriteHeader(http.StatusBadRequest)
+			w.WriteHeader(http.StatusForbidden)
 			return
 		}
 		// No jwt in header

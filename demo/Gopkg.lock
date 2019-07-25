@@ -11,11 +11,11 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:cf3dc25333eac52a3738172c42c9c9d7138121ff0a429f3b8033d2f0e7fe5c58"
+  digest = "1:7449adc2810de15c5a185ed2a88a4907079eae4c75e2519a657bab96100676fb"
   name = "github.com/factorysh/alertmanager-multitenant"
   packages = ["multitenant"]
   pruneopts = "UT"
-  revision = "6e3b3b30a6e733c325ca91d63b4d18bf3aaaf384"
+  revision = "aa206d483e78de5430f65f89f0b3f43b2f0fb530"
 
 [solve-meta]
   analyzer-name = "dep"

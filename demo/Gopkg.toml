@@ -24,11 +24,6 @@
 #   go-tests = true
 #   unused-packages = true
 
-
-[[constraint]]
-  branch = "master"
-  name = "github.com/factorysh/alertmanager-multitenant"
-
 [prune]
   go-tests = true
   unused-packages = true
