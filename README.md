@@ -12,7 +12,7 @@ Reject the request if the JWT is bad or if the "project" label is different in t
 There is a main and a docker-compose file in the `demo` directory. It run alertmanager and mailhog for testing the alerts posting.
 The main build a proxy (called `demo` on the compose file) : send a request to the proxy and check on the alertmanager (:9093) and mailhog (:8025) interface
 
-	make demo
+	cd demo && make demo
 
 Know you can send a http request to the proxy
 
