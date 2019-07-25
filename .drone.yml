@@ -18,6 +18,8 @@ steps:
   - dep ensure
   - go test -v ./multitenant
 - name: functional test
+  pull: default
+  image: golang
   commands:
   - go build -o main
   - `./main`
