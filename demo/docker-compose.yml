@@ -17,6 +17,10 @@ services:
 
     demo:
         image: bearstech/debian
+        environment:
+            - AM_ADDRESS=http://alertmanager:9093
+            - LISTEN_ADDRESS=0.0.0.0:9000
+            - SIGNATURE=secret
         ports:
             - "9000:9000"
         volumes:

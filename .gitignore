@@ -2,3 +2,4 @@ vendor
 bin
 demo/bin
 demo/vendor
+Gopkg.lock

@@ -2,7 +2,7 @@ all: build
 
 build: bin
 	dep ensure
-	go build -o bin/demo
+	go build -o bin/demo ..
 
 bin:
 	mkdir -p bin
