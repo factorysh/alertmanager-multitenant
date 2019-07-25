@@ -12,7 +12,7 @@ func main() {
 	h := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(r.Host)
 		client := &http.Client{}
-		r.URL.Host = "192.168.99.105:9093"
+		r.URL.Host = "0.0.0.0:9093"
 		_, err := client.Do(r)
 		if err != nil {
 			log.Fatal(err)
@@ -21,5 +21,5 @@ func main() {
 	m := multitenant.Multitenant{
 		JwtSecret: []byte("secret"),
 	}
-	log.Fatal(http.ListenAndServe("127.0.0.1:9000", m.Multitenant(h)))
+	log.Fatal(http.ListenAndServe("0.0.0.0:9000", m.Multitenant(h)))
 }

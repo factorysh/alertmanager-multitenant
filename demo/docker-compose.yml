@@ -15,12 +15,12 @@ services:
             - "1025:1025"
             - "8025:8025"
 
-    # demo:
-    #     image: bearstech/debian
-    #     ports:
-    #         - "9000:9000"
-    #     volumes:
-    #         - ./bin/:/app
-    #     command:
-    #         - "/app/demo"
-    #     restart: always
+    demo:
+        image: bearstech/debian
+        ports:
+            - "9000:9000"
+        volumes:
+            - ./bin/:/app
+        command:
+            - "/app/demo"
+        restart: always

@@ -15,7 +15,7 @@
   name = "github.com/factorysh/alertmanager-multitenant"
   packages = ["multitenant"]
   pruneopts = "UT"
-  revision = "c623b17f81a6478bb718dbe7a5ec0a5486c1518f"
+  revision = "6e3b3b30a6e733c325ca91d63b4d18bf3aaaf384"
 
 [solve-meta]
   analyzer-name = "dep"

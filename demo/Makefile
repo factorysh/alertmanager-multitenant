@@ -16,8 +16,12 @@ clean:
 
 docker-build:
 	docker run --rm \
-		-v `pwd`:/go/src/github.com/factorysh/alertmanager-multitenant \
+		-v ~/.cache:/.cache \
+		-v `pwd`/..:/go/src/github.com/factorysh/alertmanager-multitenant \
 		-w /go/src/github.com/factorysh/alertmanager-multitenant \
 		-u `id -u` \
 		bearstech/golang-dep \
-		make
+		make -C demo
+
+demo: docker-build
+	docker-compose up -d

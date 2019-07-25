@@ -23,13 +23,14 @@ type Claims struct {
 
 func (m *Multitenant) Multitenant(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		var data Data
-		err := json.NewDecoder(r.Body).Decode(&data)
+		var datas []*Data
+
+		err := json.NewDecoder(r.Body).Decode(&datas)
 		if err != nil {
 			w.WriteHeader(http.StatusBadRequest)
 			return
 		}
-		project := data.Labels["project"]
+		project := datas[0].Labels["project"]
 		// No project label
 		if project == "" {
 			w.WriteHeader(http.StatusBadRequest)
