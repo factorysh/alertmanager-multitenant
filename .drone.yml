@@ -20,7 +20,7 @@ steps:
 - name: functional test
   commands:
   - go build -o main
-  - ./main
+  - `./main`
   - `curl -i \
    -H "JWT: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.XbPfbIHMI6arZ3Y922BhjWgQzWXcXNrz0ogtVhfEd2o" \
    -H "Content-Type: application/json" \
