@@ -18,8 +18,5 @@ steps:
   - dep ensure
   - go test -v ./multitenant
 - name: func_test
-  pull: default
-  image: docker/compose:1.24.1
   commands:
-  - apt update && apt install -y make curl
   - sh start_demo.sh
