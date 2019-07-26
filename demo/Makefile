@@ -1,7 +1,7 @@
 all: build
 
 build: bin
-	dep ensure
+	cd .. && dep ensure
 	go build -o bin/demo ..
 
 bin:
