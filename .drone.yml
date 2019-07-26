@@ -19,6 +19,6 @@ steps:
   - go test -v ./multitenant
 - name: func_test
   pull: default
-  image: compose
+  image: docker/compose
   commands:
   - sh start_demo.sh
