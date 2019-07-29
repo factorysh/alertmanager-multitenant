@@ -8,6 +8,8 @@ services:
         volumes:
             - ./alertmanager/:/etc/alertmanager/
         restart: always
+        depends_on:
+            - mailhog
 
     mailhog:
         image: mailhog/mailhog
@@ -28,3 +30,12 @@ services:
         command:
             - "/app/demo"
         restart: always
+
+    client:
+        image: bearstech/debian
+        volumes:
+            - ./test_goss/bin:/goss
+            - ../test_goss:/goss/conf
+        working_dir: /goss
+        command: >
+            ./goss -g conf/proxy_test.yaml validate --max-concurrent 4 --format documentation

@@ -1,0 +1,6 @@
+http:
+  http://demo:9000/:
+    status: 400
+    timeout: 5000
+    # body:
+    #   - Hello world
