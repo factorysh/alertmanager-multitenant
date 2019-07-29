@@ -17,51 +17,33 @@ steps:
   - go get -u github.com/golang/dep/cmd/dep
   - dep ensure
   - go test -v ./multitenant
-- name: goss_bin
+- name: build
   pull: default
-  image: bearstech/debian-dev
-  volumes:
-  - name: goss
-    path: /goss
+  image: bearstech/golang-dep
   commands:
-  - mkdir -p /goss/bin
-  - curl -o goss/bin/goss -L https://github.com/aelsabbahy/goss/releases/download/v${GOSS_VERSION}/goss-linux-amd64
-  - chmod 755 goss/bin/goss
-- name: functionnal_test
-  pull: default
-  image: bearstech/debian
-  volumes:
-  - name: goss
-    path: /goss
-  commands:
-  - /goss/goss -g /goss/proxy_test.yaml validate --max-concurrent 4 --format documentation
-
-services:
-- name: alertmanager
-  image: prom/alertmanager
-  volumes:
-  - name: alertmanager
-    path: /etc/alertmanager/
-- name: alertmanager
-  image: mailhog/mailhog
+  - cd /go/src/github.com/factorysh/alertmanager-multitenant
+  - make -C demo
 - name: proxy
   image: bearstech/debian
-  volumes:
-  - name: proxy
-    path: /app
+  detach: true
   environment:
     AM_ADDRESS: http://alertmanager:9093
     LISTEN_ADDRESS: 0.0.0.0:9000
     SIGNATURE: secret
+  commands:
+  - demo/bin/demo
+- name: functionnal_test
+  pull: default
+  image: bearstech/debian-dev
+  commands:
+  - mkdir -p test_goss/bin
+  - curl -o test_goss/bin/goss -L https://github.com/aelsabbahy/goss/releases/download/v0.3.6/goss-linux-amd64
+  - chmod 755 test_goss/bin/goss
+  - test_goss/bin/goss -g test_goss/proxy_test.yaml validate --max-concurrent 4 --format documentation
 
-
-volumes:
+services:
 - name: alertmanager
-  host:
-    path: ./demo/alertmanager/
-- name: proxy
-  host:
-    path: ./demo/bin
-- name: goss
-  host:
-    path: ./test_goss
+  image: prom/alertmanager
+  volumes: [ "demo/alertmanager/":"/etc/alertmanager" ]
+- name: mailhog
+  image: mailhog/mailhog
