@@ -36,10 +36,12 @@ steps:
   pull: default
   image: bearstech/debian-dev
   commands:
-  - mkdir -p test_goss/bin
-  - curl -o test_goss/bin/goss -L https://github.com/aelsabbahy/goss/releases/download/v0.3.6/goss-linux-amd64
-  - chmod 755 test_goss/bin/goss
-  - test_goss/bin/goss -g test_goss/proxy_test.yaml validate --max-concurrent 4 --format documentation
+  - >
+    curl -i
+    -H "JWT: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.XbPfbIHMI6arZ3Y922BhjWgQzWXcXNrz0ogtVhfEd2o"
+    -H "Content-Type: application/json"
+    -d '[{"labels": {"project": "test"}}]'
+    proxy:9000/api/v2/alerts | grep 200
 
 services:
 - name: alertmanager
